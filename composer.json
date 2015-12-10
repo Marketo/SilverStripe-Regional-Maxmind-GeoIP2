@@ -1,0 +1,28 @@
+
+{
+    "name": "marketo/silverstripe-regional-maxmind-geoip2",
+    "description": "Driver allowing the SilverStripe-Regional module to pull data from Maxmind using GeoIP2",
+
+    "type": "silverstripe-module",
+
+    "require": {
+        "silverstripe/cms": "3.*",
+        "composer/installers": "*",
+        "marketo/silverstripe-regional": "*"
+    },
+
+    "license": "BSD-3-Clause",
+
+    "authors": [
+        {
+            "name": "Kirk Mayo",
+            "email": "kirk.mayo@solnet.co.nz"
+        },
+        {
+            "name": "Nathan J. Brauer",
+            "email": "nathan@marketera.com"
+        }
+    ],
+
+    "minimum-stability": "dev"
+}
