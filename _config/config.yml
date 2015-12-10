@@ -1,0 +1,3 @@
+IPInfoCache:
+  Driver: 'MarketoRegionalDriver'
+  GeoPath: '/usr/share/GeoIP/GeoIP.dat'
