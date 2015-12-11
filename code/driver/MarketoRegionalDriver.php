@@ -143,6 +143,11 @@ class MarketoRegionalDriver extends DataObject
         return $code;
     }
 
+    public static function getStatusMessage($status) {
+        if (!$status) $status = 'SUCCESS_CACHED';
+        return self::$statuses[$status];
+    }
+
     public function getDetails() {
         return $this->Info;
     }
