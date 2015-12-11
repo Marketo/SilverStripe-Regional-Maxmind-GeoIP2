@@ -9,7 +9,8 @@ use GeoIp2\Database\Reader;
 
 class MarketoRegionalDriver extends DataObject
 {
-    public $defaultPath = '/usr/share/GeoIP/GeoIP.dat';
+    public $defaultPath = '/usr/share/GeoIP/GeoLite2-City.mmdb';
+    public $defaultPathISP = '/usr/share/GeoIP/GeoIP2-ISP-Test.mmdb';
     public $json;
 
     public static $statuses = array (
@@ -96,6 +97,18 @@ class MarketoRegionalDriver extends DataObject
                 $result['location']['marketo_region_code'] = $geoRegion->RegionCode;
                 $result['location']['marketo_region_time_zone'] = $geoRegion->TimeZone;
             }
+        }
+
+        $pathISP = Config::inst()->get('IPInfoCache', 'GeoPathISP');
+        if (!$pathISP) $pathISP = $this->defaultPathISP;
+        if (!file_exists($pathISP)) {
+            user_error('Error loading Geo ISP database', E_USER_ERROR);
+        }
+        $reader = new Reader($pathISP);
+        $record = $reader->isp($ip);
+        if ($record) {
+            $result['organization']['name'] = $record->organization;
+            $result['organization']['isp'] = $record->isp;
         }
 
         if ($status) {
