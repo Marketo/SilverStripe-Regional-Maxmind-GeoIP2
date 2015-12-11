@@ -11,11 +11,31 @@ DefaultMarketoResponse:
       isp: Comcast Cable
     location:
       continent_code: NA
-      continent_name: North America
+      continent_names:
+        de: Nordamerika
+        en: North America
+        es: Norteam\u00e9rica
+        fr: Am\u00e9rique du Nord
+        ja: \u5317\u30a2\u30e1\u30ea\u30ab
+        pt-BR: Am\u00e9rica do Norte
+        ru: \u0421\u0435\u0432\u0435\u0440\u043d\u0430\u044f \u0410\u043c\u0435\u0440\u0438\u043a\u0430
+        zh-CN: \u5317\u7f8e\u6d32
       country_code: US
-      country_name: United States
+      country_names:
+        de: USA
+        en: United States
+        es: Estados Unidos
+        fr: \u00c9tats-Unis
+        ja: \u30a2\u30e1\u30ea\u30ab\u5408\u8846\u56fd
+        pt-BR: Estados Unidos
+        ru: \u0421\u0428\u0410
+        zh-CN: \u7f8e\u56fd
       postal_code: 94404
-      city_name: San Mateo
+      city_names:
+        de: San Mateo
+        en: San Mateo
+        ja: \u30b5\u30f3\u30de\u30c6\u30aa
+        ru: \u0421\u0430\u043d-\u041c\u0430\u0442\u0435\u043e
       latitude: null
       longitude: null
       time_zone: America/Los_Angeles
