@@ -10,7 +10,6 @@ use GeoIp2\Database\Reader;
 class MarketoRegionalDriver extends DataObject
 {
     public $defaultPath = '/usr/share/GeoIP/GeoIP.dat';
-    public static $writeToDB = false;
     public $json;
 
     public static $statuses = array (
@@ -42,8 +41,12 @@ class MarketoRegionalDriver extends DataObject
     }
 
     public function processIP($ip) {
+        // setup the default marketo bject
+        $request = Config::inst()->get('DefaultMarketoResponse', 'request');
+        $statusArray = Config::inst()->get('DefaultMarketoResponse', 'status');
+        $result = Config::inst()->get('DefaultMarketoResponse', 'result');
+
         $status = null;
-        $result = array();
         $path = Config::inst()->get('IPInfoCache', 'GeoPath');
         if (!$path) $path = $this->defaultPath;
         if (!file_exists($path)) {
@@ -61,7 +64,7 @@ class MarketoRegionalDriver extends DataObject
                 ));
             }
         }
-        $reader = new Reader('/usr/share/GeoIP/GeoLite2-City.mmdb');
+        $reader = new Reader($path);
         $record = $reader->city($ip);
 
         $countryCode = null;
@@ -96,22 +99,28 @@ class MarketoRegionalDriver extends DataObject
         }
 
         if ($status) {
+            $statusArray['code'] = self::setStatus(null, null, $status);
+            $statusArray['message'] = self::getStatusMessage($status);
             // do not cache a failure
-            return json_encode(array(
+            $this->json = json_encode(array(
                 'request' => $request,
-                'status' => $status,
+                'status' => $statusArray,
                 'result' => $result
             ));
         } else {
             // return cached success message
-            $status = self::setStatus('SUCCESS_CACHED', null, $status);
+            $statusArray['code'] = self::setStatus(null, null, $status);
+            $statusArray['message'] = self::getStatusMessage($status);
             $this->json =  json_encode(array(
                 'request' => $request,
-                'status' => $status,
+                'status' => $statusArray,
                 'result' => $result
             ));
         }
 
+        // we write a different json object with a cached status to the DB
+        $statusArray['code'] = self::setStatus('SUCCESS', null);
+        $statusArray['message'] = self::getStatusMessage($statusArray['code']);
         $dbStatus = self::setStatus('SUCCESS', null, null);
         $dbJson = json_encode(array(
             'request' => $request,

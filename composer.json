@@ -8,7 +8,8 @@
     "require": {
         "silverstripe/cms": "3.*",
         "composer/installers": "*",
-        "marketo/silverstripe-regional": "*"
+        "marketo/silverstripe-regional": "*",
+        "geoip/geoip": "~2.0"
     },
 
     "license": "BSD-3-Clause",

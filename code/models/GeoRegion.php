@@ -14,9 +14,9 @@ class GeoRegion extends DataObject
         'TimeZone' => 'Varchar'
     );
 
-    //private static $has_one = array(
-        //'Currency' => 'Currency'
-    //);
+    private static $has_one = array(
+        'Currency' => 'MarketoCurrency'
+    );
 
     public function getCMSFields() {
         $fields = parent::getCMSFields();
