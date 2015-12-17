@@ -105,8 +105,8 @@ class GeoIP2Driver
             ));
         } else {
             // return cached success message
-            $statusArray['code'] = self::setStatus(null, null, $status);
-            $statusArray['message'] = self::getStatusMessage($status);
+            $statusArray['code'] = self::setStatus('SUCCESS_CACHED', null, null);
+            $statusArray['message'] = self::getStatusMessage($statusArray['code']);
             $this->json =  json_encode(array(
                 'request' => $request,
                 'status' => $statusArray,
@@ -115,12 +115,11 @@ class GeoIP2Driver
         }
 
         // we write a different json object with a cached status to the DB
-        $statusArray['code'] = self::setStatus('SUCCESS', null);
+        $statusArray['code'] = self::setStatus('SUCCESS', null, $status);
         $statusArray['message'] = self::getStatusMessage($statusArray['code']);
-        $dbStatus = self::setStatus('SUCCESS', null, null);
         $dbJson = json_encode(array(
             'request' => $request,
-            'status' => $dbStatus,
+            'status' => $statusArray,
             'result' => array('maxmind-geoip2' => $result)
         ));
 
