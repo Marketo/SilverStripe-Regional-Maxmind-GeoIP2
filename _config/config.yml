@@ -1,2 +1,2 @@
 IPInfoCache:
-  Driver: 'MarketoRegionalDriver'
+  Driver: 'GeoIP2Driver'

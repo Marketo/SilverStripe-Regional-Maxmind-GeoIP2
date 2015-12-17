@@ -7,7 +7,7 @@
  */
 use GeoIp2\Database\Reader;
 
-class MarketoRegionalDriver extends DataObject
+class GeoIP2Driver
 {
     public $defaultPath = '/usr/share/GeoIP/GeoLite2-City.mmdb';
     public $defaultPathISP = '/usr/share/GeoIP/GeoIP2-ISP-Test.mmdb';
@@ -42,11 +42,6 @@ class MarketoRegionalDriver extends DataObject
     }
 
     public function processIP($ip) {
-        // setup the default marketo bject
-        $request = Config::inst()->get('DefaultMarketoResponse', 'request');
-        $statusArray = Config::inst()->get('DefaultMarketoResponse', 'status');
-        $result = Config::inst()->get('DefaultMarketoResponse', 'result');
-
         $status = null;
         $path = Config::inst()->get('IPInfoCache', 'GeoPath');
         if (!$path) $path = $this->defaultPath;
@@ -55,9 +50,9 @@ class MarketoRegionalDriver extends DataObject
         }
 
         $request['ip'] = $ip;
-        $request['type'] = MarketoRegionalDriver::ipVersion($ip);
+        $request['type'] = self::ipVersion($ip);
         if ($request['type'] == 'IPv4') {
-            $isPrivate = MarketoRegionalDriver::isPrivateIP($ip);
+            $isPrivate = self::isPrivateIP($ip);
             if ($isPrivate) {
                 $status = self::setStatus('IP_ADDRESS_RESERVED', null, $status);
                 return json_encode(array(
@@ -85,18 +80,6 @@ class MarketoRegionalDriver extends DataObject
             $result['location']['time_zone'] = $record->location->timeZone;
         } catch (Exception $e) {
             $status = self::setStatus('GEOIP_EXCEPTION', $e, $status);
-        }
-
-        $geoRegion = null;
-        if ($countryCode) {
-            $geoRegion = GeoRegion::get()
-                ->filter('RegionCode', $countryCode)
-                ->first();
-            if ($geoRegion && $geoRegion->exists()) {
-                $result['location']['marketo_region_name'] = $geoRegion->Name;
-                $result['location']['marketo_region_code'] = $geoRegion->RegionCode;
-                $result['location']['marketo_region_time_zone'] = $geoRegion->TimeZone;
-            }
         }
 
         $pathISP = Config::inst()->get('IPInfoCache', 'GeoPathISP');
@@ -180,7 +163,7 @@ class MarketoRegionalDriver extends DataObject
     public static function isPrivateIP($ip) {
         $longIP = ip2long($ip);
         if ($longIP != -1) {
-            foreach (MarketoRegionalDriver::$privateAddresses as $privateAddress) {
+            foreach (self::$privateAddresses as $privateAddress) {
                 list($start, $end) = explode('|', $privateAddress);
                 if ($longIP >= ip2long($start) && $longIP <= ip2long($end)) return (true);
             }

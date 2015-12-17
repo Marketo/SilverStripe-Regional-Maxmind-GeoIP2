@@ -25,7 +25,6 @@ This can be done by adding a couple of lines to the config.yml file as per the e
 
 ```
 IPInfoCache:
-  Driver: 'MarketoRegionalDriver'
   GeoPath: '/usr/share/GeoIP/GeoLite2-City.mmdb'
   GeoPathISP: '/usr/share/GeoIP/GeoIP2-ISP-Test.mmdb'
 ```
