@@ -17,8 +17,7 @@ class GeoIP2Driver
         'SUCCESS' => 'Success',
         'SUCCESS_CACHED' => 'Successfully found and cached response',
         'IP_ADDRESS_INVALID' => 'You have not supplied a valid IPv4 or IPv6 address',
-        'IP_ADDRESS_RESERVED' => 'You have supplied an IP address which belongs to ' .
-            'a reserved or private range',
+        'IP_ADDRESS_RESERVED' => 'You have supplied an IP address which belongs to a reserved or private range',
         'IP_ADDRESS_NOT_FOUND' => 'The supplied IP address is not in the database',
         'DOMAIN_REGISTRATION_REQUIRED' => 'The domain of your site is not registered.',
         'DOMAIN_REGISTRATION_REQUIRED' => 'The domain of your site is not registered.',
